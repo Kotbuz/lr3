@@ -1,0 +1,144 @@
+{
+  "Urls": "http://*:8000",
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost",
+    "UpstreamHeaderTransform": {},
+    "AddHeadersToRequest": {
+      "userId": "Claims[http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name] > value > |"
+    }
+  },
+  "SwaggerEndPoints": [
+    {
+      "Key": "UsersApi",
+      "Config": [
+        {
+          "Name": "Управление пользователями",
+          "Version": "v1",
+          "Url": "http://localhost:8000/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "RolesApi",
+      "Config": [
+        {
+          "Name": "Управление ролями",
+          "Version": "v1",
+          "Url": "http://localhost:8000/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "TrainingManager",
+      "Config": [
+        {
+          "Name": "Менеджер тренировок",
+          "Version": "v1",
+          "Url": "http://localhost:8006/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/auth/login",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8000
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/login",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "SecurityApi"
+    },
+    {
+      "DownstreamPathTemplate": "/auth/refresh-token",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8000
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/refresh-token",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "SecurityApi"
+    },
+    {
+      "DownstreamPathTemplate": "/auth/logout",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8000
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/logout",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "SecurityApi",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/users/{everything}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8000
+        }
+      ],
+      "UpstreamPathTemplate": "/users/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "UsersApi",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/current",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8000
+        }
+      ],
+      "UpstreamPathTemplate": "/user",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "UsersApi",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/roles/{everything}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8000
+        }
+      ],
+      "UpstreamPathTemplate": "/roles/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "RolesApi"
+    },
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8006
+        }
+      ],
+      "UpstreamPathTemplate": "/trainingmanager/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "TrainingManager",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      }
+    }
+  ]
+}
